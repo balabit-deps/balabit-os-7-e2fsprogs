@@ -1,0 +1,54 @@
+From 5fafc783590ba0a463bdfdbf26e76bb9c6bebfc5 Mon Sep 17 00:00:00 2001
+From: Theodore Ts'o <tytso@mit.edu>
+Date: Thu, 6 Dec 2018 22:44:45 -0500
+Subject: [PATCH] libext2fs: fix regression so we are correctly translating
+ Posix ACL's
+
+The commit 50d0998cfee ("libext2fs: add ea_inode support to set
+xattr") broke the fix that was addressed in commit 0ee1eaf70c25
+("libext2fs: translate internal ext4 acl to Posix ACL in
+ext2fs_xattr_[sg]et()").  This was because although we calculated what
+the correct on-disk ACL representation would be, we didn't actually
+*store* it, but instead stored the passed-in Posix ACL memory
+representation instead.
+
+Addresses-Launchpad-Bug: #1807288
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/1807288
+Signed-off-by: Theodore Ts'o <tytso@mit.edu>
+---
+ lib/ext2fs/ext_attr.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/lib/ext2fs/ext_attr.c b/lib/ext2fs/ext_attr.c
+index 77a036202..78a823a90 100644
+--- a/lib/ext2fs/ext_attr.c
++++ b/lib/ext2fs/ext_attr.c
+@@ -1595,7 +1595,8 @@ errcode_t ext2fs_xattr_set(struct ext2_xattr_handle *h,
+ 			ret = EXT2_ET_FILESYSTEM_CORRUPTED;
+ 			goto out;
+ 		}
+-		ret = xattr_array_update(h, name, value, value_len, ibody_free,
++		ret = xattr_array_update(h, name, new_value, value_len,
++					 ibody_free,
+ 					 0 /* block_free */, old_idx,
+ 					 0 /* in_inode */);
+ 		if (ret)
+@@ -1614,12 +1615,12 @@ errcode_t ext2fs_xattr_set(struct ext2_xattr_handle *h,
+ 	    value_len > EXT4_XATTR_MIN_LARGE_EA_SIZE(fs->blocksize))
+ 		in_inode = 1;
+ 
+-	ret = xattr_array_update(h, name, value, value_len, ibody_free,
++	ret = xattr_array_update(h, name, new_value, value_len, ibody_free,
+ 				 block_free, old_idx, in_inode);
+ 	if (ret == EXT2_ET_EA_NO_SPACE && !in_inode &&
+ 	    ext2fs_has_feature_ea_inode(fs->super))
+-		ret = xattr_array_update(h, name, value, value_len, ibody_free,
+-				 block_free, old_idx, 1 /* in_inode */);
++		ret = xattr_array_update(h, name, new_value, value_len,
++			ibody_free, block_free, old_idx, 1 /* in_inode */);
+ 	if (ret)
+ 		goto out;
+ 
+-- 
+2.19.1
+

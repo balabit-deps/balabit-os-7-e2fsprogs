@@ -1,3 +1,11 @@
+e2fsprogs (1.44.1-1ubuntu1) bionic; urgency=medium
+
+  * debian/patches/0001-libext2fs-fix-regression-so-we-are-correctly-
+    transla.patch: cherry-pick upstream fix so we are correctly translating
+    acls in mkfs.ext4.  Closes LP: #1807288.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 11 Dec 2018 10:39:48 -0800
+
 e2fsprogs (1.44.1-1) unstable; urgency=medium
 
   * New upstream release
