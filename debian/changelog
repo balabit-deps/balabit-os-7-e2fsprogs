@@ -1,3 +1,12 @@
+e2fsprogs (1.44.1-1ubuntu1.1) bionic; urgency=medium
+
+  * d/patches/0001-resize2fs-update-checksums-in-the-extent-tree-s-relo.patch:
+    do the checksum update later in extent tree relocated block to denote the
+    inode number change, otherwise the checksum update might be done in the old
+    copy of the block. (LP: #1798562)
+
+ -- Mathieu Trudel-Lapierre <cyphermox@ubuntu.com>  Thu, 24 Jan 2019 18:11:28 -0500
+
 e2fsprogs (1.44.1-1ubuntu1) bionic; urgency=medium
 
   * debian/patches/0001-libext2fs-fix-regression-so-we-are-correctly-
