@@ -1,3 +1,13 @@
+e2fsprogs (1.44.1-1ubuntu1.2) bionic-security; urgency=medium
+
+  * SECURITY UPDATE: Out-of-bounds write on the heap
+    - debian/patches/CVE-2019-5094.patch: add checks to prevent
+      buffer overrun in quota code in lib/support/quotaio_tree.c,
+      lib/support/quotaio_v2.c, lib/support/mkquota.c.
+    - CVE-2019-5094
+
+ -- Leonidas S. Barbosa <leo.barbosa@canonical.com>  Thu, 26 Sep 2019 15:01:58 -0300
+
 e2fsprogs (1.44.1-1ubuntu1.1) bionic; urgency=medium
 
   * d/patches/0001-resize2fs-update-checksums-in-the-extent-tree-s-relo.patch:
