@@ -1,3 +1,13 @@
+e2fsprogs (1.44.1-1ubuntu1.3) bionic-security; urgency=medium
+
+  * SECURITY UPDATE: Out-of-bounds write
+    - debian/patches/CVE-2019-5188-*.patch:  abort if there is a corrupted
+      directory block when rehashing and don't try to rehash a deleted directory
+      in e2fsck/rehash.c, e2fsck/pass1b.c.
+    - CVE-2019-5188
+
+ -- Leonidas S. Barbosa <leo.barbosa@canonical.com>  Wed, 22 Jan 2020 11:40:45 -0300
+
 e2fsprogs (1.44.1-1ubuntu1.2) bionic-security; urgency=medium
 
   * SECURITY UPDATE: Out-of-bounds write on the heap

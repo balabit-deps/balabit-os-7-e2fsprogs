@@ -1,3 +1,5 @@
 0001-libext2fs-fix-regression-so-we-are-correctly-transla.patch
 0001-resize2fs-update-checksums-in-the-extent-tree-s-relo.patch
 CVE-2019-5094.patch
+CVE-2019-5188-1.patch
+CVE-2019-5188-2.patch
